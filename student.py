@@ -1,6 +1,5 @@
 from flask import Flask,request,render_template,redirect
 import mysql.connector as con
-import  calendar
 
 student=Flask(__name__)
 ## creating mysql connection##
@@ -10,12 +9,12 @@ def mysql_con():
     mydb = con.connect(host='localhost', user='root', password='mysqlp@$$')
     mycursor = mydb.cursor()
     ###creating databae###
-    mycursor.execute("create database if not exists dept1")
-    print(mydb.is_connected())
-    mycursor.execute("use dept1")
+    #mycursor.execute("create database if not exists dept1")
+    #print(mydb.is_connected())
+    #mycursor.execute("use dept1")
     ##creating students records table using dept1 database###
-    mycursor.execute("create table if not exists student_records(branch varchar(15),roll_no int,names varchar(25),mail_id varchar(30),mob_no int,sem int)")
-    mycursor.execute("create table if not exists attendance_sem(date int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
+    #mycursor.execute("create table if not exists student_records(branch varchar(15),roll_no int,names varchar(25),mail_id varchar(30),mob_no int,sem int)")
+    #mycursor.execute("create table if not exists attendance_sem(date int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
     #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
     #mycursor.execute("create database if not exists administration")
     #mycursor.execute("use administartion")
@@ -23,15 +22,56 @@ def mysql_con():
     #mycursor.execute("create table if not exists salary_payment(sl_no int,Employee_name varchar(50),Employee_domain varchar(50),dept varchar(10))")
     #mycursor.execute("create table if not exists lecturers(id int name varchar(25) dept varchar(25),subjects_handled varchar(30))")
 
-mysql_con()
-
-@student.route("/h",methods=['POST','GET'])
-def student_details():
-    global mycursor
-    global mydb
+@student.route("/",methods=['POST','GET'])
+def home():
     try:
         if request.method=='GET':
-            return render_template("index.html")
+            render_template("index.html")
+    except Exception as e:
+        print(e)
+    else:
+        return render_template("index.html")
+
+@student.route("/login",methods=['POST','GET'])
+def login():
+    global mycursor
+    try:
+        if request.method=='POST':
+            employee=request.form.get("employee")
+            code=request.form.get("code")
+            user_code=mycursor.execute("select * from college.user_records where user_code='{}'.format(code) ")
+            if employee=="lecturer" and code==user_code:
+                print(employee,code)
+                return render_template("student.html")
+            elif employee=="office_staff" and code== user_code:
+                return render_template("home.html")
+            #elif employee=="principal" and code==user_code:
+                #return render_template("ceollege_stats.html")
+            else:
+                return render_template("index.html",errorr="Not an employee,please register")
+    except Exception as e:
+        print(e)
+    finally:
+        if request.method=='GET':
+            render_template("index.html")
+
+@student.route("/register",methods=["GET","POST"])
+def register():
+    try:
+        code=request.form.get("code")
+        if len(code)!=4:
+            render_template("register.html",error="length of code is long,Kindly reenter code")
+    except Exception as e:
+        print(e)
+    else:
+        user_upload="insert into user_register code values(%s)"
+        user_insert='{}'.format(code)
+        mycursor.execute(user_upload,user_insert)
+    return redirect("/home")
+
+'''@student.route("/add",methods=["GET"])
+def adding_data():
+    try:
         if request.method=='POST':
             branch = request.form.get("branch")
             roll_no=request.form.get("roll_no")
@@ -40,19 +80,15 @@ def student_details():
             mob_no=request.form.get("mob_no")
             sem=request.form.get("sem")
             if branch==''or roll_no=='' or name=='' or e_mail=='' or mob_no=='' or sem=='':
-                return render_template("index.html",error="enter input")
+                return render_template("students.html",error="Enter input")
+            add="insert into student_records branch,roll_no,names,mail_id,mob_no,sem values(%s,%s,%s,%s,%s,%s"
+            add_insert=(branch,roll_no,name,e_mail,mob_no,sem)
+            mycursor.execute(add,add_insert)
     except Exception as e:
         return(e)
-    else:
-        return render_template("index.html")
-
-@student.route("/i",methods=["GET"])
-def fetching_data():
-    global myursor
-    mycursor.execute("use dept1")
-    mycursor.execute("select * from student_records")
-    data=mycursor.fetchall()
-    return render_template("home.html",data=data)
+    finally:
+        if request.method=='GET':
+            render_template("students.html")
 
 @student.route("/add",methods=['POST','GET'])
 def add():
@@ -98,7 +134,7 @@ def update():
                print(updates)
         break
     return render_template("index.html")
-
+'''
 
 
 

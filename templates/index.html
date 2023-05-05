@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <a href="/home">click</a>
-
-        <form action="/" method="post">
-            <label for="fname">Branch:</label><br>
-            <input type="text" id="fname" name="branch" placeholder="Enter branch here"><br><br>
-            <label for="lname">Roll_no:</label><br>
-            <input type="number" id="lname" name="roll_no" placeholder="Enter roll_no here"><br><br>
-            <label for="lname">Name:</label><br>
-            <input type="text" id="mname" name="name" placeholder="Enter name here"><br><br>
-            <label for="nname">Email:</label><br>
-            <input type="text" id="nname" name="email" placeholder="Enter email here"><br><br>
-            <label for="aname">Mob_no:</label><br>
-            <input type="number" id="aname" name="mob_no" placeholder="Enter mob_no here"><br><br>
-            <label for="bname">Sem:</label><br>
-            <input type="number" id="bname" name="mob_no" placeholder="Enter sem here"><br><br>
-            <label for="dname">date:</label><br>
-            <input type="date" id="dname" name="mob_no" placeholder="Enter date here"><br><br>
-            <input type="submit" value="Submit">
-
-        </form>
-        <br />
+	<div class="container-fluid bg-crimson">
+		<div class="row justify-content-center">
+			<div class="col-md-6 mt-5">
+				<div class="card">
+					<div class="card-header bg-light">
+						<h4 class="text-center text-crimson mb-0">Login</h4>
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label for="username" class="text-light">Username</label>
+								<input type="text" class="form-control" id="username" required>
+							</div>
+							<div class="form-group">
+								<label for="password" class="text-light">Password</label>
+								<input type="password" class="form-control" id="password" required>
+							</div>
+							<button type="submit" class="btn btn-light btn-block bg-crimson">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNVeG6T" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
