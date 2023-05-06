@@ -19,11 +19,12 @@
 				<div class="card mt-100">
 					<div class="card-body">
 						<form action="/register" method="post">
-							<div class="form">
-								<label>Code</label><br>
-								<input type="number" class="form-control"><br>
-							</div>
+								<label>Employee</label><br>
+								<input type="text" class="form-control" id="employee" name="employee"><br>
+								<label>Password</label><br>
+								<input type="password" class="form-control" id="code" name="code"><br>
 							<button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
+							{{err}} {{err_1}}
 						</form>
 					</div>
 				</div>
