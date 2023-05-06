@@ -3,24 +3,21 @@ import mysql.connector as con
 
 student=Flask(__name__)
 ## creating mysql connection##
-def mysql_con():
-    global mycursor
-    global mydb
-    mydb = con.connect(host='localhost', user='root', password='mysqlp@$$')
-    mycursor = mydb.cursor()
-    ###creating databae###
-    #mycursor.execute("create database if not exists dept1")
-    #print(mydb.is_connected())
-    #mycursor.execute("use dept1")
-    ##creating students records table using dept1 database###
-    #mycursor.execute("create table if not exists student_records(branch varchar(15),roll_no int,names varchar(25),mail_id varchar(30),mob_no int,sem int)")
-    #mycursor.execute("create table if not exists attendance_sem(date int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
-    #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
-    #mycursor.execute("create database if not exists administration")
-    #mycursor.execute("use administartion")
-    #mycursor.execute("create table if not exists fees_payment(roll_no int,name varchar(25),dept varchar(),semester int,date int)")
-    #mycursor.execute("create table if not exists salary_payment(sl_no int,Employee_name varchar(50),Employee_domain varchar(50),dept varchar(10))")
-    #mycursor.execute("create table if not exists lecturers(id int name varchar(25) dept varchar(25),subjects_handled varchar(30))")
+mydb = con.connect(host='localhost', user='root', password='mysqlp@$$')
+mycursor = mydb.cursor()
+###creating databae###
+#mycursor.execute("create database if not exists dept1")
+#print(mydb.is_connected())
+#mycursor.execute("use dept1")
+##creating students records table using dept1 database###
+#mycursor.execute("create table if not exists student_records(branch varchar(15),roll_no int,names varchar(25),mail_id varchar(30),mob_no int,sem int)")
+#mycursor.execute("create table if not exists attendance_sem(date int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
+#mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
+#mycursor.execute("create database if not exists administration")
+#mycursor.execute("use administartion")
+#mycursor.execute("create table if not exists fees_payment(roll_no int,name varchar(25),dept varchar(),semester int,date int)")
+#mycursor.execute("create table if not exists salary_payment(sl_no int,Employee_name varchar(50),Employee_domain varchar(50),dept varchar(10))")
+#mycursor.execute("create table if not exists lecturers(id int name varchar(25) dept varchar(25),subjects_handled varchar(30))")
 
 @student.route("/",methods=['POST','GET'])
 def home():
@@ -34,40 +31,43 @@ def home():
 
 @student.route("/login",methods=['POST','GET'])
 def login():
-    global mycursor
     try:
-        if request.method=='POST':
-            employee=request.form.get("employee")
-            code=request.form.get("code")
-            user_code=mycursor.execute("select * from college.user_records where user_code='{}'.format(code) ")
-            if employee=="lecturer" and code==user_code:
+        if request.method=='GET':
+            return render_template("index.html")
+        else:
+            if request.method=='POST':
+                employee=request.form.get("employee")
+                code=request.form.get("code")
                 print(employee,code)
-                return render_template("student.html")
-            elif employee=="office_staff" and code== user_code:
-                return render_template("home.html")
-            #elif employee=="principal" and code==user_code:
-                #return render_template("ceollege_stats.html")
+                mycursor.execute("select * from college.user_register where employees like employee and user_code like code")
+                mycursor.fetchall()
             else:
-                return render_template("index.html",errorr="Not an employee,please register")
+                return render_template("index.html",errorr="Login Error")
     except Exception as e:
         print(e)
-    finally:
-        if request.method=='GET':
-            render_template("index.html")
+    else:
+        return render_template("student.html")
 
 @student.route("/register",methods=["GET","POST"])
 def register():
     try:
-        code=request.form.get("code")
-        if len(code)!=4:
-            render_template("register.html",error="length of code is long,Kindly reenter code")
+        if request.method == 'GET':
+            return render_template("register.html")
+        else:
+            if request.method=='POST':
+                employee=request.form.get("employee")
+                code=request.form.get("code")
+                print(employee,code)
+                if len(code)!=4:
+                    render_template("register.html",error="length of code is long,Kindly re-enter code")
     except Exception as e:
         print(e)
     else:
         user_upload="insert into user_register code values(%s)"
-        user_insert='{}'.format(code)
+        user_insert=employee,code
         mycursor.execute(user_upload,user_insert)
-    return redirect("/home")
+    return redirect("/")
+
 
 '''@student.route("/add",methods=["GET"])
 def adding_data():
