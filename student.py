@@ -8,9 +8,9 @@ mycursor = mydb.cursor()
 ###creating databae###
 #mycursor.execute("create database if not exists dept1")
 #print(mydb.is_connected())
-#mycursor.execute("use dept1")
+mycursor.execute("use dept1")
 ##creating students records table using dept1 database###
-#mycursor.execute("create table if not exists student_records(branch varchar(15),roll_no int,names varchar(25),mail_id varchar(30),mob_no int,sem int)")
+#mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(4),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
 #mycursor.execute("create table if not exists attendance_sem(date int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
 #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
 #mycursor.execute("create database if not exists administration")
@@ -82,25 +82,24 @@ def register():
 
 @student.route("/add",methods=["GET","POST"])
 def adding_data():
-    try:
-        if request.method=='GET':
-            return render_template("student.html")
-    except Exception as e:
-        return (e)
+    if request.method=='GET':
+        return render_template("student.html")
     else:
         if request.method=='POST':
+            sl_no=request.form.get("sl_no")
             branch = request.form.get("branch")
             roll_no=request.form.get("roll_no")
             name=request.form.get("name")
             e_mail=request.form.get("email")
             mob_no=request.form.get("mob_no")
             sem=request.form.get("sem")
+            print(branch,roll_no,sem,mob_no,e_mail,name)
             if branch==''or roll_no=='' or name=='' or e_mail=='' or mob_no=='' or sem=='':
                 return render_template("student.html",error="Enter input")
             else:
                 try:
-                    add="insert into dept1.student_records(branch,roll_no,names,mail_id,mob_no,sem)values(%s,%s,%s,%s,%s,%s)"
-                    add_insert=(branch,roll_no,name,e_mail,mob_no,sem)
+                    add="insert into dept1.student_records(sl_no,branch,id,names,mail_id,mob_no,sem)values(%s,%s,%s,%s,%s,%s,%s)"
+                    add_insert=(sl_no,branch,roll_no,name,e_mail,mob_no,sem)
                     mycursor.execute(add,add_insert)
                     print("student_record inserted")
                 except Exception as e:
@@ -108,7 +107,6 @@ def adding_data():
                 else:
                     mydb.commit()
                     return render_template("student.html")
-
 
 '''@student.route("/update",methods=['POST','GET'])
 def update():
@@ -144,60 +142,64 @@ def delete():
     try:
         if request.method=="GET":
             return render_template("student.html")
-    except Exception as e :
+    except Exception as e:
         print(e)
     else:
         if request.method=='POST':
             roll_no=request.form.get("roll_no")
+            name=request.form.get("name")
+            sem=request.form.get("sem")
             try:
-                mycursor.execute("select distinct roll_no from dept1.student_record")
-                ids=mycursor.fetchall()
-                for id in range(len(ids)):
-                    if roll_no==ids[id][0]:
-                        mycursor.execute("delete from dept1.student_records where roll_no='{}'.format(roll_no)")
-                        break
-                    else:
-                        return render_template("student.html",error="Roll_no doesnt not exist")
+                mycursor.execute("select * from dept1.student_records")
+                mycursor.fetchall()
+                delete_query="delete from dept1.student_records s where s.id=%s and s.names=%s and s.sem=%s"
+                delete_instance=(roll_no,name,sem)
+                mycursor.execute(delete_query,delete_instance)
+                print("roll_no deleted")
             except Exception as e:
                 print(e)
-            finally:
+            else:
                 mydb.commit()
                 return render_template("student.html")
-'''
-@student.route("/",methods=["GET","POST"])
-def update():
-    update_list=[]
-    orginial_list=[]
-    mycursor.execute("select * from student_records")
-    for all in mycursor.fetchall():
-        orginial_list.append(all)
-    if request.method=='GET':
-        return render_template("index.html")
-    if request.method == 'POST':
-        branch = request.form.get("branch")
-        update_list.append(branch)
-        roll_no = request.form.get("roll_no")
-        update_list.append(roll_no)
-        name = request.form.get("name")
-        update_list.append(name)
-        e_mail = request.form.get("email")
-        update_list.append(e_mail)
-        mob_no = request.form.get("mob_no")
-        update_list.append(mob_no)
-        sem = request.form.get("sem")
-        update_list.append(sem)
-    print(update_list)
-    for originals in orginial_list:
-        for updates in update_list:
-            if originals!=updates:
-               print(updates)
-        break
-    return render_template("index.html")
-'''
+
+
 @student.route("/logout",methods=["POST","GET"])
 def logout():
     mydb.close()
     return redirect("/")
+
+##############student attendance#################
+@student.route("/attendance",methods=["POST","GET"])
+def attendance():
+    try:
+        if request.method=='GET':
+                mycursor.execute("select * from (select date,id,names,sub1,sub2,sub3,sub4,sub5,sub6 from student_records s left join attendance_sem a on s.id=a.roll_no) as attendance_records")
+                table=mycursor.fetchall()
+                data=table
+                return render_template("attendance.html", data=data)
+        else:
+            if request.method == 'POST':
+                date=request.form.get("date")
+                sub1 = request.form.get("sub1")
+                sub2 = request.form.get("sub2")
+                sub3 = request.form.get("sub3")
+                sub4 = request.form.get("sub4")
+                sub5 = request.form.get("sub5")
+                sub6 = request.form.get("sub1")
+                print(date,sub6,sub5,sub4,sub2,sub3,sub1)
+                attendance_query=("insert into attendance_sem(date,sub1,sub2,sub3,sub4,sub5,sub6) values(%s,%s,%s,%s,%s,%s,%s)")
+                attendance_variables=(date,sub1,sub2,sub3,sub4,sub5,sub6)
+                mycursor.execute(attendance_query,attendance_variables)
+                return render_template("attendance.html")
+    except Exception as e:
+        print(e)
+
+
+
+
+
+
+
 
 
 if (__name__)=="__main__":

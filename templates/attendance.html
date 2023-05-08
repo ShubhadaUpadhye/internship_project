@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>videos</title>
+    <style>
+		table {
+			border-collapse: collapse;
+			border: 2px solid black;
+		}
+		th, td {
+			border: 2px solid black;
+			padding: 4px;
+		}
+		body {
+    background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
+}
+     </style>
+</head>
+<body>
+
+    <form action="/attendance" method="post">
+       <table>
+           <tr>
+               <th>date</th>
+               <th>roll_no</th>
+               <th>names</th>
+               <th>sub1</th>
+               <th>sub2</th>
+               <th>sub3</th>
+               <th>sub4</th>
+               <th>sub5</th>
+               <th>sub6</th>
+           </tr>
+            {% for items in data %}
+           <tr>
+               <td><input type="date" name="date" formaction="/attendance" formmethod="post" ></td>
+               <td>{{items[1]}}</td>
+               <td>{{items[2]}}</td>
+               <td><input type="text" name="sub1" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="sub2" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="sub3" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="sub4" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="sub5" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="sub6" formaction="/attendance" formmethod="post"></td>
+
+           </tr>
+             {% endfor %}
+       </table>
+        <button type="submit" value="submit" name="submit" typeof="lg">Submit</button>
+    </form>
+</body>
+</html>

@@ -8,9 +8,9 @@
 <body>
 
 
-        <form action="/add" method="post">
-            <label for="dname">date:</label><br>
-            <input type="date" id="dname" name="mob_no" placeholder="Enter date here"><br>
+        <form action="/login" method="get">
+            <label for="sname">Sl_no:</label><br>
+            <input type="text" id="sname" name="sl_no" placeholder="Enter count here"><br>
             <label for="fname">Branch:</label><br>
             <input type="text" id="fname" name="branch" placeholder="Enter branch here"><br>
             <label for="lname">Roll_no:</label><br>
@@ -22,10 +22,19 @@
             <label for="aname">Mob_no:</label><br>
             <input type="number" id="aname" name="mob_no" placeholder="Enter mob_no here"><br>
             <label for="bname">Sem:</label><br>
-            <input type="number" id="bname" name="mob_no" placeholder="Enter sem here"><br><br>
-            <input type="submit" value="Submit" name="Add">
-        </form>
-        <br />
+            <input type="number" id="bname" name="sem" placeholder="Enter sem here"><br><br>
+            <button type="submit" value="submit" name="Add" formaction="/add" formmethod="post">add</button>
+            <button type="submit" value="submit" name="Update" formaction="/update" formmethod="post">update</button>
+            <button type="submit" value="submit" name="Clear" formaction="/clear" formmethod="get">Clear</button>
+            <button type="submit" value="submit" name="Delete" formaction="/delete" formmethod="post"> delete</button>
+            </form>
+            <form style="text-align:right;">
+             <button type="submit" id="loname" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
+            </form>
+        <a href="/attendance">click here to go to attendance page</a>
+
+
+
 
 </body>
 </html>
