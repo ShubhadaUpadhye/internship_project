@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>videos</title>
+    <title>attendance</title>
     <style>
 		table {
 			border-collapse: collapse;
@@ -20,12 +20,16 @@
 </head>
 <body>
 
-    <form action="/attendance" method="post">
-       <table>
+    <form action="/add_attendance" method="get">
+       <table style="text-align:center">
+           <colgroup>
+            <col style="width:10%;">
+               </colgroup>
            <tr>
                <th>date</th>
-               <th>roll_no</th>
-               <th>names</th>
+               <th>sem</th>
+               <th>id</th>
+               <th>roll</th>
                <th>sub1</th>
                <th>sub2</th>
                <th>sub3</th>
@@ -35,20 +39,25 @@
            </tr>
             {% for items in data %}
            <tr>
-               <td><input type="date" name="date" formaction="/attendance" formmethod="post" ></td>
-               <td>{{items[1]}}</td>
+               <td class="narrow-column"><input type="date" name="date" formaction="/attendance" formmethod="post" size="5"></td>
+               <td><input type="text" name="sem"  size="5"></td>
                <td>{{items[2]}}</td>
-               <td><input type="text" name="sub1" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub2" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub3" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub4" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub5" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub6" formaction="/attendance" formmethod="post"></td>
+               <td><input type="text" name="roll_no" size="5"></td>
+               <td><input type="text" name="sub1"  size="5"></td>
+               <td><input type="text" name="sub2"  size="5"></td>
+               <td><input type="text" name="sub3"  size="5"></td>
+               <td><input type="text" name="sub4"  size="5"></td>
+               <td><input type="text" name="sub5"  size="5"></td>
+               <td><input type="text" name="sub6"   size="5"></td>
 
            </tr>
              {% endfor %}
-       </table>
-        <button type="submit" value="submit" name="submit" typeof="lg">Submit</button>
+       </table><br><br>
+        <button type="submit" value="submit" name="add" typeof="lg" formaction="/add_attendance" formmethod="post">Add</button>
+        <button type="submit" value="submit" name="update" typeof="lg" formaction="/update_attendance" formmethod="post">Update</button>
+        <button type="submit" value="submit" name="clear" typeof="lg" formaction="/clear_attendance" formmethod="post">Clear</button>
+        <button type="submit" value="submit" name="delete" typeof="lg" formaction="/delete_attendance" formmethod="post">Delete</button>
+        {{error}}
     </form>
 </body>
 </html>

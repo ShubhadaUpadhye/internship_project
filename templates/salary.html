@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>salary</title>
+
+    <style>
+		table {
+			border-collapse: collapse;
+			border: 2px solid black;
+		}
+		th, td {
+			border: 2px solid black;
+			padding: 4px;
+		}
+		body {
+    background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
+}
+
+
+     </style>
+</head>
+<body>
+
+      <form action="/login" method="get">
+            <label for="sname">Sl_no:</label><br>
+            <input type="number" id="sname" name="sl_no" placeholder="Enter count here"><br>
+            <label for="fname">date:</label><br>
+            <input type="date" id="fname" name="date" placeholder="Enter date here"><br>
+            <label for="uname">unique_id:</label><br>
+            <input type="text" id="uname" name="u_id" placeholder="Enter date here"><br>
+            <label for="lname">emp_names:</label><br>
+            <input type="text" id="lname" name="name" placeholder="Enter emp_name here"><br>
+            <label for="lname">Employee_type:</label><br>
+            <input type="text" id="mname" name="employee" placeholder="Enter emp_type here"><br>
+            <label for="nname">dept</label><br>
+            <input type="text" id="nname" name="dept" placeholder="Enter branch here"><br>
+            <label for="aname">semeters:</label><br>
+            <input type="text" id="aname" name="sem" placeholder="Enter sems_managed here"><br>
+            <label for="tname">allowances:</label><br>
+            <input type="number" id="tname" name="allowance" placeholder="Enter allowances here"><br><br>
+            <label for="dname">deductions:</label><br>
+            <input type="number" id="dname" name="deduction" placeholder="Enter deductions here"><br><br>
+            <label for="gname">gross_salary:</label><br>
+            <input type="number" id="gname" name="gross_salary" placeholder="Enter gross_salary here"><br><br>
+            <label for="hname">net_salary:</label><br>
+            <input type="number" id="hname" name="net_salary" placeholder="Enter net_salary here"><br><br>
+
+            <button type="submit" value="submit" name="Add" formaction="/add_salary" formmethod="post">add</button>
+            <button type="submit" value="submit" name="Update" formaction="/update_salary" formmethod="post">update</button>
+            <button type="submit" value="submit" name="Clear" formaction="/clear_salary" formmethod="get">Clear</button>
+            <button type="submit" value="submit" name="Delete" formaction="/delete_salary" formmethod="post"> delete</button>
+            </form>
+            <form style="text-align:right;">
+             <button type="submit" id="loname" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
+                {{error}}
+            </form>
+
+</body>
+</html>
