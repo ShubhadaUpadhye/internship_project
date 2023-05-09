@@ -20,12 +20,11 @@
 </head>
 <body>
 
-    <form action="/marks" method="post">
-       <table>
+        <form action="/add_marks" method="get">
+       <table id="marks_table">
            <tr>
-               <th>sl_no</th>
                <th>roll_no</th>
-               <th>names</th>
+               <th>sem</th>
                <th>sub1</th>
                <th>sub2</th>
                <th>sub3</th>
@@ -33,23 +32,49 @@
                <th>sub5</th>
                <th>sub6</th>
            </tr>
-            {% for items in data %}
            <tr>
-               <td><input type="number" name="sl_no" formaction="/attendance" formmethod="post" ></td>
-               <td>{{items[1]}}</td>
-               <td>{{items[2]}}</td>
-               <td><input type="text" name="sub1" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub2" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub3" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub4" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub5" formaction="/attendance" formmethod="post"></td>
-               <td><input type="text" name="sub6" formaction="/attendance" formmethod="post"></td>
+               <td><input type="number" name="roll_no"  size="5"></td>
+               <td><input type="number" name="sem"  size="5"></td>
+               <td><input type="text" name="sub1"  size="5"></td>
+               <td><input type="text" name="sub2"  size="5"></td>
+               <td><input type="text" name="sub3"  size="5"></td>
+               <td><input type="text" name="sub4"  size="5"></td>
+               <td><input type="text" name="sub5"  size=""></td>
+               <td><input type="text" name="sub6"  size="5"></td>
 
            </tr>
-             {% endfor %}
        </table>
-        <button type="submit" value="submit" name="submit" typeof="lg">Submit</button>
+             <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">Add</button>
+        </form>
+        <button onclick="addRow()" formmethod="get" formaction="/add_marks">Add Row</button>
+
+    <script>
+        function addRow() {
+            var table = document.getElementById("marks_table");
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(7);
+            var cell8 = row.insertCell(8);
+            cell1.innerHTML = '<input type="text" name="roll_no">';
+            cell2.innerHTML = '<input type="text" name="sem">';
+            cell3.innerHTML = '<input type="text" name="sub1">';
+            cell4.innerHTML = '<input type="text" name="sub2">';
+            cell5.innerHTML = '<input type="text" name="sub3">';
+            cell6.innerHTML = '<input type="text" name="sub4">';
+            cell7.innerHTML = '<input type="text" name="sub5">';
+            cell8.innerHTML = '<input type="text" name="sub6">';
+        }
+    </script>
+
         {{error}}
-    </form>
+
+
+
+
 </body>
 </html>
