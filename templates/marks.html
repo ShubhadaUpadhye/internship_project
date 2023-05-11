@@ -1,80 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 
     <meta charset="UTF-8">
     <title>marks</title>
     <style>
-		table {
-			border-collapse: collapse;
-			border: 2px solid black;
-		}
-		th, td {
-			border: 2px solid black;
-			padding: 4px;
-		}
-		body {
+        .container {
+            display: flex;
+        }
+
+        .form-container {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .table-container {
+            colspan:"5";
+            flex: 5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 2px solid black;
+        }
+        body {
     background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
 }
-     </style>
+    </style>
+
 </head>
 <body>
+        <div class="container">
+            <div class="form-container">
+                <form>
+                    <label for="sl_no">Sl_no:</label><br>
+                    <input type="number" id="sl_no" name=roll_no ><br>
+                    <label for="roll_no">Roll_no:</label><br>
+                    <input type="number" id="roll_no" name=roll_no ><br>
+                    <label for="sem">sem:</label><br>
+                    <input type="number" id="sem" name="sem" ><br>
+                    <label for="sub1">sub1:</label><br>
+                    <input type="number" id="sub1" name="sub1" ><br>
+                    <label for="sub2">sub2:</label><br>
+                    <input type="number" id="sub2" name="sub2" ><br>
+                    <label for="sub3">sub3:</label><br>
+                    <input type="number" id="sub3" name="sub3" ><br>
+                    <label for="sub4">sub4:</label><br>
+                    <input type="number" id="sub4" name="sub4" ><br>
+                    <label for="sub5">sub5:</label><br>
+                    <input type="number" id="sub5" name=sub5 ><br>
+                    <label for="sub6">sub6:</label><br>
+                    <input type="number" id="sub6" name=sub6 ><br><br>
+                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="Addrow"><br>
+                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">Add</button><br>
+                    {{error}}
+                </form>
+                <a href="/add_attendance">click here to go to attendance page</a><br>
+                <a href="/login">click here to go to marks page</a>
+            </div>
 
-        <form action="/add_marks" method="get">
-       <table id="marks_table">
-           <tr>
-               <th>roll_no</th>
-               <th>sem</th>
-               <th>sub1</th>
-               <th>sub2</th>
-               <th>sub3</th>
-               <th>sub4</th>
-               <th>sub5</th>
-               <th>sub6</th>
-           </tr>
-           <tr>
-               <td><input type="number" name="roll_no"  size="5"></td>
-               <td><input type="number" name="sem"  size="5"></td>
-               <td><input type="text" name="sub1"  size="5"></td>
-               <td><input type="text" name="sub2"  size="5"></td>
-               <td><input type="text" name="sub3"  size="5"></td>
-               <td><input type="text" name="sub4"  size="5"></td>
-               <td><input type="text" name="sub5"  size=""></td>
-               <td><input type="text" name="sub6"  size="5"></td>
+            <div class="table-container">
+                <table id="marks_table">
 
-           </tr>
-       </table>
-             <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">Add</button>
-        </form>
-        <button onclick="addRow()" formmethod="get" formaction="/add_marks">Add Row</button>
+                <tr>
+                    <th >roll_no</th>
+                    <th >sem</th>
+                    <th >sub1</th>
+                    <th >sub2</th>
+                    <th >sub3</th>
+                    <th >sub4</th>
+                    <th>sub5</th>
+                    <th>sub6</th>
+                </tr>
+
+                </table>
+            </div>
+        </div>
 
     <script>
+        var list1 = [];
+		var list2 = [];
+		var list3 = [];
+		var list4 = [];
+		var list5 = [];
+		var list6 = [];
+		var list7 = [];
+		var list8 = [];
+
+
+		var n = 1;
+		var x = 0;
+
         function addRow() {
-            var table = document.getElementById("marks_table");
-            var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
-            var cell7 = row.insertCell(7);
-            var cell8 = row.insertCell(8);
-            cell1.innerHTML = '<input type="text" name="roll_no">';
-            cell2.innerHTML = '<input type="text" name="sem">';
-            cell3.innerHTML = '<input type="text" name="sub1">';
-            cell4.innerHTML = '<input type="text" name="sub2">';
-            cell5.innerHTML = '<input type="text" name="sub3">';
-            cell6.innerHTML = '<input type="text" name="sub4">';
-            cell7.innerHTML = '<input type="text" name="sub5">';
-            cell8.innerHTML = '<input type="text" name="sub6">';
+            var AddRown = document.getElementById('marks_table');
+			var NewRow = AddRown.insertRow(n);
+
+			list1[x] = document.getElementById("roll_no").value;
+			list2[x] = document.getElementById("sem").value;
+			list3[x] = document.getElementById("sub1").value;
+			list4[x] = document.getElementById("sub2").value;
+			list5[x] = document.getElementById("sub3").value;
+			list6[x] = document.getElementById("sub4").value;
+			list7[x] = document.getElementById("sub5").value;
+			list8[x] = document.getElementById("sub6").value;
+
+			var cel1 = NewRow.insertCell(0);
+			var cel2 = NewRow.insertCell(1);
+			var cel3 = NewRow.insertCell(2);
+			var cel4 = NewRow.insertCell(3);
+			var cel5 = NewRow.insertCell(4);
+			var cel6 = NewRow.insertCell(5);
+			var cel7 = NewRow.insertCell(6);
+			var cel8 = NewRow.insertCell(7);
+
+			cel1.innerHTML = list1[x];
+			cel2.innerHTML = list2[x];
+			cel3.innerHTML = list3[x];
+			cel4.innerHTML = list4[x];
+			cel5.innerHTML = list5[x];
+			cel6.innerHTML = list6[x];
+			cel7.innerHTML = list7[x];
+			cel8.innerHTML = list8[x];
+
+			n++;
+			x++;
         }
+
     </script>
-
-        {{error}}
-
-
-
-
 </body>
 </html>
+
+
+
+
+

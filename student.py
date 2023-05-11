@@ -9,9 +9,10 @@ mycursor = mydb.cursor()
 #mycursor.execute("create database if not exists dept1")
 #print(mydb.is_connected())
 mycursor.execute("use dept1")
+mycursor.execute("create database if not exists marks")
 ##creating students records table using dept1 database###
 #mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(4),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
-mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem int ,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
+#mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem int ,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
 #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
 #mycursor.execute("create database if not exists administration")
 #mycursor.execute("use administartion")
@@ -19,12 +20,14 @@ mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem i
 #mycursor.execute("create table if not exists salary_payment(sl_no int,Employee_name varchar(50),Employee_domain varchar(50),dept varchar(10))")
 #mycursor.execute("create table if not exists lecturers(id int name varchar(25) dept varchar(25),subjects_handled varchar(30))")
 
+
+############################################home#############################################
 @student.route("/",methods=['POST','GET'])
 def home():
    if request.method=='GET':
        mydb.connect()
        return render_template("index.html")
-
+################################login#################################################
 @student.route("/login",methods=['POST','GET'])
 def login():
     try:
@@ -50,6 +53,7 @@ def login():
             else:
                 return render_template("index.html",error="Login Error")
 
+#############################################register#################################################################
 @student.route("/register",methods=["GET","POST"])
 def register():
     try:
@@ -79,12 +83,10 @@ def register():
                 mydb.commit()
                 return redirect("/")
 
-
-@student.route("/add",methods=["GET","POST"])
+########################student detials with lecturers################################
+@student.route("/add_students",methods=["GET","POST"])
 def adding_data():
-    if request.method=='GET':
-        return render_template("student.html")
-    else:
+    try:
         if request.method=='POST':
             sl_no=request.form.get("sl_no")
             branch = request.form.get("branch")
@@ -106,7 +108,11 @@ def adding_data():
                     print(e)
                 else:
                     mydb.commit()
-                    return render_template("student.html")
+                    return redirect("/add_students")
+    except Exception as e:
+        print(e)
+    else:
+        return render_template("student.html")
 
 '''@student.route("/update",methods=['POST','GET'])
 def update():
@@ -163,23 +169,20 @@ def delete():
                 return render_template("student.html")
 
 
-@student.route("/logout",methods=["POST","GET"])
-def logout():
-    mydb.close()
-    return redirect("/")
 
-##############student attendance#################
+###############################################student attendance##################################################3
 @student.route("/add_attendance",methods=["POST","GET"])
-def add_attendance():
-    attendance_list=[]
+def attendance_table():
     try:
         mycursor.execute("use dept1")
-        mycursor.execute("select * from student_records s left join attendance_sem a on s.id=a.roll_no")
-        table = mycursor.fetchall()
-        data = table
-        if request.method=='GET':
-            return render_template("attendance.html",data=data)
-        else:
+        mycursor.execute("create table if not exists attendance_sem(date date,sem int,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
+    except Exception as e:
+        print(e)
+    else:
+        print("tables created")
+    def add_attendance():
+        attendance_list=[]
+        try:
             if request.method == 'POST':
                 date=request.form.get("date")
                 sem=request.form.get("sem")
@@ -193,23 +196,25 @@ def add_attendance():
                 print(date,sub6,sub5,sub4,sub2,sub3,sub1)
                 attendance_list.append((date,sem,roll_no,sub6,sub5,sub4,sub2,sub3,sub1))
                 if date=="" or sub1=="" or sub2=="" or sub3=="" or sub4=="" or sub5=="" or sub6=="":
-                    return render_template("attendance.html",data=data,error="enter attendance")
+                    return render_template("attendance.html",error="enter attendance")
                 else:
                     for i in range(len(attendance_list)):
                         try:
                             attendance_query=("insert into attendance_sem(date,sem,roll_no,sub1,sub2,sub3,sub4,sub5,sub6) values(%s,%s,%s,%s,%s,%s,%s,%s,%s)")
                             attendance_variables=(date,sem,roll_no,sub1,sub2,sub3,sub4,sub5,sub6)
                             mycursor.execute(attendance_query,attendance_variables)
-                            mydb.commit()
-                            print("attendance data added")
                         except Exception as e:
                             print(e)
                     else:
-                        return render_template("attendance.html",data=data)
-    except Exception as e:
-        print(e)
-    else:
-        print("attendance table done")
+                        mydb.commit()
+                        return redirect("/add_attendance")
+        except Exception as e:
+            print(e)
+        else:
+            print("attendance data added")
+    add_attendance()
+    return render_template("attendance.html")
+
 
 @student.route("/delete_attendance",methods=["POST","GET"])
 def delete_attendance():
@@ -245,7 +250,6 @@ def delete_attendance():
     else:
        print("attendace_deleted")
 
-
 @student.route("/clear_attendance",methods=["POST","GET"])
 def clear_attendance():
     try:
@@ -258,49 +262,53 @@ def clear_attendance():
 
 #######################################################student marks##########################################################################3333
 @student.route("/add_marks",methods=["POST","GET"])
-def add_marks():
+def marks_table():
+    mark_list=[]
     try:
-        mycursor.execute("create database if not exists marks")
         mycursor.execute("use marks")
-        mycursor.execute("create table if not exists ia1(sl_no int,roll_no int,tot_marks int,sub1 float,sub2 float,sub3 float,sub4 float,sub5 float,sub6 float)")
+        mycursor.execute("create table if not exists ia1(sl_no int,roll_no varchar(10),sub1 float,sub2 float,sub3 float,sub4 float,sub5 float,sub6 float)")
         mycursor.execute("create table if not exists ia2(sl_no int,roll_no int,tot_marks int,sub1 float,sub2 float,sub3 float,sub4 float,sub5 float,sub6 float)")
         mycursor.execute("create table if not exists ia3(sl_no int,roll_no int,tot_marks int,sub1 float,sub2 float,sub3 float,sub4 float,sub5 float,sub6 float)")
     except Exception as e:
         print(e)
     else:
         print("database and table created")
-
+    def add_marks():
         try:
-            if request.method=='GET':
-                return render_template("marks.html")
-            else:
-                if request.method=='POST':
-                    roll_no=request.form.get("roll_no")
-                    sub1 = request.form.get("sub1")
-                    sub2 = request.form.get("sub2")
-                    sub3 = request.form.get("sub3")
-                    sub4 = request.form.get("sub4")
-                    sub5 = request.form.get("sub5")
-                    sub6 = request.form.get("sub1")
-                    print(roll_no,sub6, sub5, sub4, sub2, sub3, sub1)
-                    if  sub1 == "" or sub2 == "" or sub3 == "" or sub4 == "" or sub5 == "" or sub6 == "":
-                        return render_template("marks.html",error="enter attendance")
-
+            if request.method=='POST':
+                sl_no=request.form.get("sl_no")
+                roll_no=request.form.get("roll_no")
+                sub1 = request.form.get("sub1")
+                sub2 = request.form.get("sub2")
+                sub3 = request.form.get("sub3")
+                sub4 = request.form.get("sub4")
+                sub5 = request.form.get("sub5")
+                sub6 = request.form.get("sub1")
+                print(roll_no,sub6, sub5, sub4, sub2, sub3, sub1)
+                mark_list.append((sl_no,roll_no,sub1, sub2, sub3, sub4, sub5, sub6))
+                if  sub1 == "" or sub2 == "" or sub3 == "" or sub4 == "" or sub5 == "" or sub6 == "":
+                    return render_template("marks.html",error="enter attendance")
+                else:
+                    for marks in range(len(mark_list)):
+                        mark_query=("insert into marks.ia1(roll_no,sub1,sub2,sub3,sub4,sub5,sub6) values(%s,%s,%s,%s,%s,%s,%s)")
+                        marks_upload=(sl_no,roll_no,sub1, sub2, sub3, sub4, sub5, sub6)
+                        mycursor.execute(mark_query,marks_upload)
+                        mydb.commit()
         except Exception as e:
             print(e)
         else:
             print("marks_table created")
+    add_marks()
     return render_template("marks.html")
+
 
 #############################################salary_payment################################################
 @student.route("/add_salary",methods=["POST","GET"])
-def add_salary():
+def salary_table():
     mycursor.execute("use college")
     mycursor.execute("create table if not exists salary(sl_no int,date date,unique_id varchar(15),names varchar(30),employee_type varchar(30),dept varchar(50),sem_taken varchar(30),allowances double,deductions double,gross_salary double,net_salary double)")
-    try:
-        if request.method=='GET':
-            return render_template("salary.html")
-        else:
+    def add_salary():
+        try:
             if request.method=='POST':
                 sl_no=request.form.get("sl_no")
                 date=request.form.get("date")
@@ -319,18 +327,19 @@ def add_salary():
                 else:
                     try:
                         add_salary_query="insert into college.salary(sl_no,date,unique_id,names,employee_type,dept,sem_taken,allowances,deductions,gross_salary,net_salary) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                        salary_upload=sl_no,date,u_id,name,employee,dept,sem,allowance,deduction,gross_salary,net_salary
+                        salary_upload=(sl_no,date,u_id,name,employee,dept,sem,allowance,deduction,gross_salary,net_salary)
                         mycursor.execute(add_salary_query,salary_upload)
                     except Exception as e:
                         print(e)
                     else:
                         mydb.commit()
-                        return redirect("/add_salary")
-    except Exception as e:
-        print(e)
-    else:
-        print("executed")
-        return redirect("/add_salary")
+                        print('salaries added')
+        except Exception as e:
+            print(e)
+        else:
+            print("executed")
+    add_salary()
+    return redirect("/add_salary")
 
 @student.route("/delete_salary",methods=["POST","GET"])
 def delete_salary():
@@ -371,6 +380,11 @@ def salary_clear():
         print("table truncated")
         return render_template("student.html")
 
+############################logout###############################################
+@student.route("/logout",methods=["POST","GET"])
+def logout():
+    mydb.close()
+    return redirect("/")
 
 if (__name__)=="__main__":
     student.run(debug=True)
