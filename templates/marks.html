@@ -12,11 +12,13 @@
         .form-container {
             flex: 1;
             margin-right: 10px;
+            font-size:20px;
         }
 
         .table-container {
-            colspan:"5";
-            flex: 5;
+            colspan:"3";
+            flex:3;
+            margin-right:130px;
         }
         table {
             width: 100%;
@@ -29,11 +31,13 @@
         }
         body {
     background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
-}
+    }
+    h3 {text-align:center;}
     </style>
 
 </head>
 <body>
+        <h3>College Management System</h3>
         <div class="container">
             <div class="form-container">
                 <form>
@@ -54,11 +58,17 @@
                     <label for="sub5">sub5:</label><br>
                     <input type="number" id="sub5" name=sub5 ><br>
                     <label for="sub6">sub6:</label><br>
-                    <input type="number" id="sub6" name=sub6 ><br><br>
-                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="Addrow"><br>
-                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">Add</button><br>
+                    <input type="number" id="sub6" name=sub6 ><br>
+
+                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">ADD</button><br>
+                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="ADDROW"><br>
                     {{error}}
-                </form>
+                </form><br>
+                <br />
+                <form style="text-align:left;">
+                    <button type="submit" id="logout" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
+                </form><br>
+
                 <a href="/add_attendance">click here to go to attendance page</a><br>
                 <a href="/login">click here to go to marks page</a>
             </div>

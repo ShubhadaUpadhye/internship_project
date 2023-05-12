@@ -16,7 +16,7 @@
 
         .table-container {
             colspan:"5";
-            flex: 5;
+            flex:3;
         }
         table {
             width: 100%;
@@ -37,7 +37,7 @@
 
       <div class="container">
             <div class="form-container">
-                  <form>
+                  <form method="get">
                         <label for="sl_no">Sl_no:</label><br>
                         <input type="number" id="sl_no" name="sl_no" placeholder="Enter count here"><br>
                         <label for="date">date:</label><br>
@@ -65,14 +65,15 @@
                         <button type="submit" value="submit" name="Add" formaction="/add_salary" formmethod="post">add</button>
                         <button type="submit" value="submit" name="Update" formaction="/update_salary" formmethod="post">update</button>
                         <button type="submit" value="submit" name="Clear" formaction="/clear_salary" formmethod="get">Clear</button>
-                        <button type="submit" value="submit" name="Delete" formaction="/delete_salary" formmethod="post"> delete</button>
                         {{error}}
+                  </form><br>
+                    <br />
+
+                  <form style="text-align:left;">
+                    <button type="submit" id="logout" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
                   </form>
             </div>
 
-            <form style="text-align:right;">
-             <button type="submit" id="loname" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
-            </form>
 
             <div class="table-container">
                 <table id="salary_table">
@@ -84,11 +85,11 @@
                     <th>Emp_name</th>
                     <th>Emp_type</th>
                     <th>Dept</th>
-                    <th>sem</th>
-                    <th>allowance</th>
-                    <th>deduction</th>
-                    <th>gros_salary</th>
-                    <th>net_salary</th>
+                    <th>Sem</th>
+                    <th>Allowance</th>
+                    <th>Deduction</th>
+                    <th>Gross_salary</th>
+                    <th>Net_salary</th>
                 </tr>
 
                 </table>

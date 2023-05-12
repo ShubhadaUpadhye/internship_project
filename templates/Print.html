@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print</title>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 2px solid black;
+        }
+        body {
+    background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
+}
+
+</head>
+<body>
+            <input type="button" onclick="print()" name="button" id="pbtn" typeof="lg" value="Print" formaction="/display" formmethod="get">
+
+            <form action="/display_records" method="get" >
+                <table>
+                    <tr>
+                        <th>Sl_no</th>
+                        <th>Branch</th>
+                        <th>Roll_no</th>
+                        <th>Names</th>
+                        <th>Email_id</th>
+                        <th>Mobile_No</th>
+                        <th>Semester</th>
+                    </tr>
+                    <tr>
+                        {%for items in data %}
+                        <td>{{items[0]}}</td>
+                        <td>{{items[1]}}</td>
+                        <td>{{items[2]}}</td>
+                        <td>{{items[3]}}</td>
+                        <td>{{items[4]}}</td>
+                        <td>{{items[5]}}</td>
+                        <td>{{items[6]}}</td>
+                        <td>{{items[7]}}</td>
+                            {% endfor %}
+                    </tr>
+                </table>
+                <button type="button" name="button" value="student_records" formmethod="get" formaction="/display_attendance">Records</button>
+            </form>
+            <br />
+            <form action="/display_attendance" method="get">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Semester</th>
+                        <th>Roll_no</th>
+                        <th>Sub1</th>
+                        <th>Sub2</th>
+                        <th>Sub3</th>
+                        <th>Sub4</th>
+                        <th>Sub5</th>
+                        <th>Sub6</th>
+
+                    </tr>
+                    <tr>
+                        {%for items in data1 %}
+                        <td>{{items[0]}}</td>
+                        <td>{{items[1]}}</td>
+                        <td>{{items[2]}}</td>
+                        <td>{{items[3]}}</td>
+                        <td>{{items[4]}}</td>
+                        <td>{{items[5]}}</td>
+                        <td>{{items[6]}}</td>
+                        <td>{{items[7]}}</td>
+                        <td>{{items[8]}}</td>
+                        <td>{{items[9]}}</td>
+                            {% endfor %}
+                    </tr>
+                </table>
+                <button type="button" name="button" value="student_records" formmethod="get" formaction="/display_attendance">Records</button>
+            </form>
+
+</body>
+</html>
+
+
+var AddRown = document.getElementById('students_table');
+                var NewRow = AddRown.insertRow(n);
+
+                list1[x] = document.getElementById("sl_no").value;
+                list2[x] = document.getElementById("branch").value;
+                list3[x] = document.getElementById("roll_no").value;
+                list4[x] = document.getElementById("name").value;
+                list5[x] = document.getElementById("email").value;
+                list6[x] = document.getElementById("mob_no").value;
+                list7[x] = document.getElementById("sem").value;
+
+                var cel1 = NewRow.insertCell(0);
+                var cel2 = NewRow.insertCell(1);
+                var cel3 = NewRow.insertCell(2);
+                var cel4 = NewRow.insertCell(3);
+                var cel5 = NewRow.insertCell(4);
+                var cel6 = NewRow.insertCell(5);
+                var cel7 = NewRow.insertCell(6);
+
+                cel1.innerHTML = list1[x];
+                cel2.innerHTML = list2[x];
+                cel3.innerHTML = list3[x];
+                cel4.innerHTML = list4[x];
+                cel5.innerHTML = list5[x];
+                cel6.innerHTML = list6[x];
+                cel7.innerHTML = list7[x];
+
+                n++;
+                x++;

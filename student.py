@@ -11,8 +11,8 @@ mycursor = mydb.cursor()
 mycursor.execute("use dept1")
 mycursor.execute("create database if not exists marks")
 ##creating students records table using dept1 database###
-#mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(4),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
-#mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem int ,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
+mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(4),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
+mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem int ,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
 #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
 #mycursor.execute("create database if not exists administration")
 #mycursor.execute("use administartion")
@@ -114,6 +114,29 @@ def adding_data():
     else:
         return render_template("student.html")
 
+@student.route("/display_records",methods=['POST','GET'])
+def display_records():
+    try:
+        if request.method=='GET':
+            mycursor.execute("select * from dept1.student_records")
+            data=mycursor.fetchall()
+            return render_template("print.html",data=data)
+    except Exception as e:
+        print(e)
+
+
+@student.route("/display_attendance",methods=['POST','GET'])
+def display_attendance():
+        try:
+            if request.method=="GET":
+                mycursor.execute("sleect * from dept1.attendance_sem")
+                data1=mycursor.fetchall()
+        except Exception as e:
+            print(e)
+        else:
+            return render_template("print.html",data=data1)
+
+
 '''@student.route("/update",methods=['POST','GET'])
 def update():
     try:
@@ -207,7 +230,7 @@ def attendance_table():
                             print(e)
                     else:
                         mydb.commit()
-                        return redirect("/add_attendance")
+
         except Exception as e:
             print(e)
         else:

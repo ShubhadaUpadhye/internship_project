@@ -12,11 +12,13 @@
         .form-container {
             flex: 1;
             margin-right: 10px;
+            font-size:20px;
         }
 
         .table-container {
-            colspan:"5";
+            colspan:"3";
             flex: 5;
+            margin-right: 70px;
         }
         table {
             width: 100%;
@@ -29,11 +31,14 @@
         }
         body {
     background:linear-gradient(to left, #33ccff 0%, #ffffff 100% );
-}
+    }
+    h3{text-align:center}
+
     </style>
 
 </head>
 <body>
+         <h3>College Management System</h3>
         <div class="container">
             <div class="form-container">
                 <form>
@@ -55,10 +60,17 @@
                     <input type="text" id="sub5" name=sub5 ><br>
                     <label for="sub6">sub6:</label><br>
                     <input type="text" id="sub6" name=sub6 ><br><br>
-                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="Addrow"><br>
-                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_attendance" formmethod="post">Add</button><br>
+                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_attendance" formmethod="post">ADD</button>
+                    <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_attendance" formmethod="post">UPDATE</button>
+                    <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_attendance" formmethod="post">CLEAR</button>
+                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="ADDROW">
                     {{error}}
                 </form>
+                <br />
+                <form style="text-align:left;">
+                    <button type="submit" id="logout" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>
+                </form>
+                <a href="/display_attendance">click here to view all attendance records and print</a>
             </div>
             <div class="table-container">
                 <table id="attendance_table">
