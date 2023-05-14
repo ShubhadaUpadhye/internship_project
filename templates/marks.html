@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
 
     <meta charset="UTF-8">
     <title>marks</title>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <style>
         .container {
             display: flex;
@@ -40,7 +43,7 @@
         <h3>College Management System</h3>
         <div class="container">
             <div class="form-container">
-                <form>
+                <form id="myform" method="get" action="/marks">
                     <label for="sl_no">Sl_no:</label><br>
                     <input type="number" id="sl_no" name=roll_no ><br>
                     <label for="roll_no">Roll_no:</label><br>
@@ -60,9 +63,9 @@
                     <label for="sub6">sub6:</label><br>
                     <input type="number" id="sub6" name=sub6 ><br>
 
-                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_marks" formmethod="post">ADD</button><br>
-                    <input type="button" onclick="addRow()" name="buttton" id="btn" typeof="lg" value="ADDROW"><br>
-                    {{error}}
+                     <button type="submit" value="submit" form="myform" formmethod="post" formaction="/add_marks">ADD</button><br>
+                     <button type="button" onclick="addRow()">ADDROW</button>
+                                                                {{error}}
                 </form><br>
                 <br />
                 <form style="text-align:left;">
@@ -77,6 +80,7 @@
                 <table id="marks_table">
 
                 <tr>
+                    <th>sl_no</th>
                     <th >roll_no</th>
                     <th >sem</th>
                     <th >sub1</th>
@@ -86,60 +90,80 @@
                     <th>sub5</th>
                     <th>sub6</th>
                 </tr>
+                <tbody>
+
+                </tbody>
 
                 </table>
             </div>
         </div>
 
     <script>
-        var list1 = [];
-		var list2 = [];
-		var list3 = [];
-		var list4 = [];
-		var list5 = [];
-		var list6 = [];
-		var list7 = [];
-		var list8 = [];
-
-
-		var n = 1;
-		var x = 0;
+        var rowCount = 1;
 
         function addRow() {
-            var AddRown = document.getElementById('marks_table');
-			var NewRow = AddRown.insertRow(n);
+            var sl_no = document.getElementById("sl_no").value;
+            var roll_no = document.getElementById("roll_no").value;
+            var sem = document.getElementById("sem").value;
+            var sub1 = document.getElementById("sub1").value;
+            var sub2 = document.getElementById("sub2").value;
+            var sub3 = document.getElementById("sub3").value;
+            var sub4 = document.getElementById("sub4").value;
+            var sub5 = document.getElementById("sub5").value;
+            var sub6 = document.getElementById("sub6").value;
 
-			list1[x] = document.getElementById("roll_no").value;
-			list2[x] = document.getElementById("sem").value;
-			list3[x] = document.getElementById("sub1").value;
-			list4[x] = document.getElementById("sub2").value;
-			list5[x] = document.getElementById("sub3").value;
-			list6[x] = document.getElementById("sub4").value;
-			list7[x] = document.getElementById("sub5").value;
-			list8[x] = document.getElementById("sub6").value;
+            var table = document.getElementById("marks_table").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(rowCount);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+            var cell7 = newRow.insertCell(6);
+            var cell8 = newRow.insertCell(7);
+            var cell9 = newRow.insertCell(8);
+            cell1.innerHTML = sl_no;
+            cell2.innerHTML = roll_no;
+            cell3.innerHTML = sem;
+            cell4.innerHTML = sub1;
+            cell5.innerHTML = sub2;
+            cell6.innerHTML = sub3;
+            cell7.innerHTML = sub4;
+            cell8.innerHTML = sub5;
+            cell9.innerHTML = sub6;
+            rowCount++;
 
-			var cel1 = NewRow.insertCell(0);
-			var cel2 = NewRow.insertCell(1);
-			var cel3 = NewRow.insertCell(2);
-			var cel4 = NewRow.insertCell(3);
-			var cel5 = NewRow.insertCell(4);
-			var cel6 = NewRow.insertCell(5);
-			var cel7 = NewRow.insertCell(6);
-			var cel8 = NewRow.insertCell(7);
+            // Clear input fields after adding row
+           document.getElementById("sl_no").value = "";
+           document.getElementById("roll_no").value = "";
+           document.getElementById("sem").value="";
+           document.getElementById("sub1").value="";
+           document.getElementById("sub2").value="";
+           document.getElementById("sub3").value="";
+           document.getElementById("sub4").value="";
+           document.getElementById("sub5").value="";
+           document.getElementById("sub6").value="";
 
-			cel1.innerHTML = list1[x];
-			cel2.innerHTML = list2[x];
-			cel3.innerHTML = list3[x];
-			cel4.innerHTML = list4[x];
-			cel5.innerHTML = list5[x];
-			cel6.innerHTML = list6[x];
-			cel7.innerHTML = list7[x];
-			cel8.innerHTML = list8[x];
-
-			n++;
-			x++;
         }
+        $("#myform").submit(function(event) {
+            event.preventDefault(); // Prevent form submission
 
+            // Serialize form data
+            var formData = $(this).serialize();
+
+       $.ajax({
+                url: "http://127.0.0.1:5000/add_marks", // Replace with your server-side processing script URL
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    // Handle the server response, if needed
+                },
+                error: function() {
+                    // Handle the error, if any
+                }
+            });
+        });
     </script>
 </body>
 </html>
