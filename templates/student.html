@@ -60,13 +60,14 @@
                     <label for="sem">Sem:</label><br>
                     <input type="number" id="sem" name="sem" placeholder="Enter sem here"><br><br>
 
-                     <button type="submit" value="submit"  name="Add" formaction="/add_students" formmethod="post">ADD</button>
+                     <button type="submit" value="submit"   name="Add" formaction="/add_students" formmethod="post">ADD</button>
                     <button type="submit" value="submit" name="Update" formaction="/update" formmethod="post">UPDATE</button>
                     <button type="submit" value="submit" name="Clear" formaction="/clear" formmethod="get">CLEAR</button>
-                    <button type="submit" value="submit" name="Delete" formaction="/delete" formmethod="post">DELETE</button><br>
+                    <button type="submit" value="submit" name="Delete"  formaction="/delete" formmethod="post">DELETE</button><br>
                                                         {{error}}
                     <button type="button" onclick="addRow()" value="ADDROW">ADDROW</button><br>
                 </form><br>
+                <br />
 
             </div>
 
@@ -147,13 +148,25 @@
                     // Handle the error, if any
                 }
             });
-       });
+
+        $.ajax({
+                url: "http://127.0.0.1:5000/delete", // Replace with your server-side processing script URL
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    // Handle the server response, if needed
+                },
+                error: function() {
+                    // Handle the error, if any
+                }
+            });
+         });
 
 </script>
 
         <a href="/add_attendance">click here to go to attendance page</a><br>
         <a href="/marks">click here to go to marks page</a><br>
-        <a href="/display_records">click here to view all records and print</a>
+        <a href="/student_details">click here to view all records and print</a>
 
         <form style="text-align:left;">
             <button type="submit" id="logout" value="submit" name="Logout" formmethod="get" formaction="/logout">Logout</button>

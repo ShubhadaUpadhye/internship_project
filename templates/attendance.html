@@ -13,7 +13,7 @@
         .form-container {
             flex: 1;
             margin-right: 10px;
-            font-size:20px;
+            font-size:15px;
         }
 
         .table-container {
@@ -66,6 +66,17 @@
                     <button type="submit" value="submit" name="submit" typeof="lg" formaction="/add_attendance" formmethod="post">CLEAR</button>
                     <button type="button" onclick="addRow()">ADDROW</button>
                     {{error}}
+                </form>
+                <br />
+
+                 <form action="/student_details" method="post">
+                    <label for="semester">Semester:</label>
+                    <input type="text" id="semester" name="semester" placeholder="Enter sem here"><br>
+                      <label for="f_date">From_Date:</label>
+                    <input type="date" id="f_date" name="from_date" placeholder="Enter start date here"><br>
+                      <label for="t_date">To_Date:</label>
+                    <input type="date" id="t_date" name="to_date" placeholder="Enter end date here"><br>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
                 </form>
 
             </div>

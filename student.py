@@ -127,16 +127,31 @@ def display_records():
         print(e)
 
 
-@student.route("/display_attendance",methods=['POST','GET'])
-def display_attendance():
-        try:
-            if request.method=="GET":
-                mycursor.execute("sleect * from dept1.attendance_sem")
-                data1=mycursor.fetchall()
-        except Exception as e:
-            print(e)
-        else:
-            return render_template("print.html",data=data1)
+@student.route("/student_details",methods=['POST','GET'])
+def display_students():
+    if request.method=="GET":
+        return render_template("Print.html")
+    else:
+        if request.method=="POST":
+            semester=request.form.get("semester")
+            date_from=request.form.get("date_from")
+            to_date=request.form.get("to_date")
+            print(semester,date_from,to_date)
+            if semester=="all":
+                mycursor.execute("select * from dept1.student_records s left join dept1.attendance_sem a on s.sem=a.sems")
+                data=mycursor.fetchall()
+                return render_template("Print.html",data=data)
+            else:
+                try:
+                    query=("select * from dept1.student_records s left join dept1.attendance_sem a on s.sem=a.sems  where sem=%s order by id asc")
+                    fetch=semester
+                    mycursor.execute(query,(fetch,))
+                    data=mycursor.fetchall()
+                    print(data)
+                    return render_template("Print.html",data=data)
+                except Exception as e:
+                    print(e)
+
 
 
 '''@student.route("/update",methods=['POST','GET'])
