@@ -11,7 +11,7 @@ mycursor = mydb.cursor()
 mycursor.execute("use dept1")
 mycursor.execute("create database if not exists marks")
 ##creating students records table using dept1 database###
-mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(4),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
+mycursor.execute("create table if not exists student_records(sl_no int ,branch varchar(15),id varchar(10),names varchar(25),mail_id varchar(30),mob_no int,sem int)")
 mycursor.execute("create table if not exists dept1.attendance_sem(date int,sem int ,roll_no int,sub1 varchar(10),sub2 varchar(10),sub3 varchar(10),sub4 varchar(10),sub5 varchar(10),sub6 varchar(10))")
 #mycursor.execute("create table if not exists marks(roll_no int,names,ia1 int,ia2 int,ia3 int)")
 #mycursor.execute("create database if not exists administration")
@@ -86,6 +86,8 @@ def register():
 ########################student detials with lecturers################################
 @student.route("/add_students",methods=["GET","POST"])
 def adding_data():
+    if request.method=='GET':
+        return redirect("/add_students")
     student_list=[]
     try:
         if request.method=='POST':
@@ -113,8 +115,7 @@ def adding_data():
                     return render_template("student.html")
     except Exception as e:
         print(e)
-    else:
-        return render_template("student.html")
+    return render_template("student.html")
 
 @student.route("/display_records",methods=['POST','GET'])
 def display_records():
@@ -152,26 +153,38 @@ def display_students():
                 except Exception as e:
                     print(e)
 
-
-
-'''@student.route("/update",methods=['POST','GET'])
+@student.route("/update",methods=['POST','GET'])
 def update():
     try:
         if request.method=='GET':
-            return render_template("student.html")
+            return render_template("update.html")
+        else:
+            if request.method == 'POST':
+                try:
+                    data=request.form.to_dict()
+                    roll_no = data['id']
+                    query="select id from dept1.student_records where id=%s"
+                    insert=(roll_no)
+                    mycursor.execute(query,(insert,))
+                    print(mycursor.fetchone())
+                    for key,value in data.items():
+                        print(roll_no)
+                        if roll_no==None:
+                            return render_template("update.html",error="enter roll_no")
+                except:
+                    return render_template("update.html",error1="no record found")
+                else:
+                    if value!=None:
+                        update_insert=(int(data['sl_no']),data['branch'],data['id'],data['names'],data['mail_id'],int(data['mob_no']),int(data['sem']))
+                        print(update_insert)
+                        update_query = "update dept1.student_records set sl_no=%s,branch=%s,id=%s,names=%s,mail_id=%s,mob_no=%s,sem=%s where student_records.id=roll_no"
+                        update_insert=(int(data['sl_no']),data['branch'],data['id'],data['names'],data['mail_id'],int(data['mob_no']),int(data['sem']))
+                        mycursor.execute(update_query,update_insert)
+                        mydb.commit()
+                return render_template("update.html")
     except Exception as e:
-        print(e)
-    else:
-        if request.method == 'POST':
-            data=request.form.getlist('data[]')
-            for records in data:
-                for k,v in records.items():
-                    print(k,v)
-        uploading = ("insert into student_records(branch,roll_no,names,mail_id,mob_no,sem) values(%s,%s,%s,%s,%s,%s)")
-        inseritng = (branch, roll_no, name, e_mail, mob_no, sem)
-        mycursor.execute(uploading, inseritng)
-        mydb.commit()
-        return render_template("salary.html")'''
+        return e
+    return render_template("update.html")
 
 @student.route("/clear",methods=["POST","GET"])
 def clear():

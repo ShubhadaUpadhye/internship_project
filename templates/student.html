@@ -50,7 +50,7 @@
                     <label for="branch">Branch:</label><br>
                     <input type="text" id="branch" name="branch" placeholder="Enter branch here"><br>
                     <label for="roll_no">Roll_no:</label><br>
-                    <input type="number" id="roll_no" name="roll_no" placeholder="Enter roll_no here"><br>
+                    <input type="text" id="roll_no" name="roll_no" placeholder="Enter roll_no here"><br>
                     <label for="name">Name:</label><br>
                     <input type="text" id="name" name="name" placeholder="Enter name here"><br>
                     <label for="email">Email:</label><br>
@@ -58,7 +58,7 @@
                     <label for="mob_no">Mob_no:</label><br>
                     <input type="number" id="mob_no" name="mob_no" placeholder="Enter mob_no here"><br>
                     <label for="sem">Sem:</label><br>
-                    <input type="number" id="sem" name="sem" placeholder="Enter sem here"><br><br>
+                    <input type="text" id="sem" name="sem" placeholder="Enter sem here"><br><br>
 
                      <button type="submit" value="submit"   name="Add" formaction="/add_students" formmethod="post">ADD</button>
                     <button type="submit" value="submit" name="Update" formaction="/update" formmethod="post">UPDATE</button>
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <script>
+ <script>
         var rowCount = 1;
 
         function addRow() {
@@ -131,36 +131,6 @@
            document.getElementById("sem").value="";
 
         }
-        $("#myform").submit(function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            // Serialize form data
-            var formData = $(this).serialize();
-
-       $.ajax({
-                url: "http://127.0.0.1:5000/add_students", // Replace with your server-side processing script URL
-                type: "POST",
-                data: formData,
-                success: function(response) {
-                    // Handle the server response, if needed
-                },
-                error: function() {
-                    // Handle the error, if any
-                }
-            });
-
-        $.ajax({
-                url: "http://127.0.0.1:5000/delete", // Replace with your server-side processing script URL
-                type: "POST",
-                data: formData,
-                success: function(response) {
-                    // Handle the server response, if needed
-                },
-                error: function() {
-                    // Handle the error, if any
-                }
-            });
-         });
 
 </script>
 
